@@ -1,7 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -23,7 +24,7 @@ import Password from 'primevue/password'
     </Button>
 
     <div class="text-center text-lg">
-      Already have an account? <a href="/login" class="text-sky-400">Sign In</a>
+      Already have an account? <RouterLink to="/login" class="text-sky-400">Sign In</RouterLink>
     </div>
   </div>
 </template>
