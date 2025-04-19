@@ -8,9 +8,19 @@ type USER {
   address: String
 }
 
+input LOGIN {
+  email: String!
+  password: String!
+}
+
+type LOGIN_RESPONSE {
+  success: Boolean!
+  access_token: String!
+}
+
 type Query {
   getUser(id: String!): USER
-  login(email: String!, password: String!): USER
+  login(credentials: LOGIN): LOGIN_RESPONSE
 }
 
 type Mutation {

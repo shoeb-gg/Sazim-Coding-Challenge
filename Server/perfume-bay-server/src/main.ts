@@ -15,7 +15,7 @@ async function bootstrap() {
   );
   app.enableCors();
   // await app.register(helmet);
-  await app.register(fastifyCsrf);
+  // await app.register(fastifyCsrf);
 
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }

@@ -1,10 +1,42 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
 import { USER } from 'src/models/User.DTO';
 import { PrismaService } from 'src/prisma.service';
+import { UserService } from '../user/user.service';
+import { LOGIN, TOKEN } from 'src/models/Login.DTO';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly user: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async login(credentials: LOGIN): Promise<TOKEN> {
+    const user: USER | undefined = await this.user.getUser(credentials.email);
+
+    if (user?.password !== credentials.password) {
+      throw new UnauthorizedException();
+    }
+    const payload = {
+      id: user?.id,
+      lastName: user?.lastName,
+      firstName: user?.firstName,
+      email: user?.email,
+    };
+
+    return {
+      success: true,
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 
   async getUser(id: string): Promise<USER> {
     try {

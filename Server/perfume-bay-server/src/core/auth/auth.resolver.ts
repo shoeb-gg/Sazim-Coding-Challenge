@@ -1,17 +1,27 @@
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from './guards/auth.guard';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
 import { USER } from 'src/models/User.DTO';
+import { LOGIN, TOKEN } from 'src/models/Login.DTO';
 
 @Resolver('Auth')
 export class AuthResolver {
   constructor(private auth: AuthService) {}
 
   @Query()
+  async login(@Args('credentials') credentials: LOGIN): Promise<TOKEN> {
+    return await this.auth.login(credentials);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query()
   async getUser(@Args('id') id: string): Promise<USER> {
     return await this.auth.getUser(id);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation()
   async createUser(
     @Args('firstName') firstName: string,
