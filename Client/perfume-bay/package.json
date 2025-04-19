@@ -14,8 +14,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@primeuix/themes": "^1.0.3",
     "@tailwindcss/vite": "^4.1.4",
+    "@vue/apollo-composable": "^4.2.2",
+    "graphql": "^16.10.0",
+    "graphql-tag": "^2.12.6",
     "primevue": "^4.3.3",
     "tailwindcss": "^4.1.4",
     "vue": "^3.5.13",

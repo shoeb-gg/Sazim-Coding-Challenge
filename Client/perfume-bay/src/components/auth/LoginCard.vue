@@ -3,6 +3,25 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import { RouterLink } from 'vue-router'
+
+import { getUserById } from '../../services/authService'
+import { onMounted, ref } from 'vue'
+import type { USER } from '@/models/User.DTO'
+
+const user = ref<USER | null>(null)
+
+onMounted(async () => {
+  getUser()
+})
+
+const getUser = async () => {
+  try {
+    const { data } = await getUserById('1ea3f39a-959a-462d-b545-942e8b263915')
+    user.value = data.getUser
+  } catch (error) {
+    console.error('Failed to fetch user:', error)
+  }
+}
 </script>
 
 <template>
@@ -17,6 +36,8 @@ import { RouterLink } from 'vue-router'
     <div class="text-center text-lg">
       Don't have an account? <RouterLink to="/register" class="text-sky-400">Signup</RouterLink>
     </div>
+
+    <div v-if="user">{{ user.firstName }}</div>
   </div>
 </template>
 

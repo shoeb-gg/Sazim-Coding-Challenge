@@ -18,8 +18,17 @@ type LOGIN_RESPONSE {
   access_token: String!
 }
 
+type GetUser_Response {
+  id: String
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  address: String
+}
+
 type Query {
-  getUser(id: String!): USER
+  getUser(id: String!): GetUser_Response
   login(credentials: LOGIN): LOGIN_RESPONSE
 }
 
