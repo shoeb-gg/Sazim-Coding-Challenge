@@ -1,11 +1,11 @@
 export type PRODUCT = {
   id?: string;
   title: string;
-  categories: ProductCategory[];
+  categories: string[];
   description: string;
   purchasePrice: number;
   rentPrice: number;
-  rentDuration: Rent_Duration;
+  rentDuration: string;
 };
 export type Rent_Duration = 'per day' | 'per week' | 'per month';
 

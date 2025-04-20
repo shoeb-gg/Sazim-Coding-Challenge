@@ -21,4 +21,31 @@ export class ProductService {
       );
     }
   }
+
+  async getProductsById(userId: string): Promise<PRODUCT[]> {
+    try {
+      const products: PRODUCT[] = await this.prisma.pRODUCT.findMany({
+        where: {
+          userId: userId,
+        },
+        select: {
+          id: true,
+          title: true,
+          categories: true,
+          description: true,
+          purchasePrice: true,
+          rentPrice: true,
+          rentDuration: true,
+        },
+      });
+
+      return products;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        'Server Error while finding products data!',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

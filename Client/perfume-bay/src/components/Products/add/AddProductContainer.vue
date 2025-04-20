@@ -7,7 +7,8 @@ import AddProductSummary from '@/components/Products/add/AddProductSummary.vue'
 import { AddProductViewStates, type PRODUCT } from '@/models/Products.DTO'
 import { ref } from 'vue'
 import router from '@/router'
-import { CreateNewProduct } from '@/services/productService'
+import { CreateNewProduct, CreateNewProductSuccess } from '@/services/productService'
+import { useToast } from 'primevue/usetoast'
 
 const AddProductViewState = ref<number>(AddProductViewStates.title)
 
@@ -24,6 +25,24 @@ const moveToBackView = async () => {
   }
 }
 
+const toast = useToast()
+const showSuccessToast = () => {
+  toast.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: 'Product created successfully !',
+    life: 3000,
+  })
+}
+const showErrorToast = () => {
+  toast.add({
+    severity: 'danger',
+    summary: 'Error',
+    detail: 'Error creating product',
+    life: 3000,
+  })
+}
+
 const productInfo = ref<PRODUCT>({
   title: '',
   categories: [],
@@ -34,8 +53,20 @@ const productInfo = ref<PRODUCT>({
 })
 
 const submitProduct = async () => {
-  console.log(productInfo.value)
   CreateNewProduct(productInfo.value)
+    .then((result) => {
+      if (result?.data?.createProduct) {
+        showSuccessToast()
+        CreateNewProductSuccess()
+      } else {
+        showErrorToast()
+      }
+    })
+    .catch((error) => {
+      showErrorToast()
+      console.error('Error creating product:', error)
+      throw error
+    })
 }
 </script>
 

@@ -1,57 +1,28 @@
 <script setup lang="ts">
 import ProductCard from '@/components/shared/ProductCard.vue'
-import { ProductCategory, type PRODUCT } from '@/models/Products.DTO'
+import ProductListSkeleton from '@/components/shared/ProductListSkeleton.vue'
+import { type PRODUCT } from '@/models/Products.DTO'
 import Button from 'primevue/button'
 import router from '@/router'
-import { nextTick } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
+import { getProductForUser } from '@/services/productService'
 
-const products: PRODUCT[] = [
-  {
-    id: '1',
-    title: 'Smartphone',
-    categories: [ProductCategory.ELECTRONICS],
-    description: 'A high-end smartphone with excellent camera and battery life.',
-    purchasePrice: 999,
-    rentPrice: 15,
-    rentDuration: 'per day',
-  },
-  {
-    id: '2',
-    title: 'Sofa Set',
-    categories: [ProductCategory.FURNITURE],
-    description: 'A comfortable 3-seater sofa made with premium fabric.',
-    purchasePrice: 1200,
-    rentPrice: 40,
-    rentDuration: 'per week',
-  },
-  {
-    id: '3',
-    title: 'Microwave Oven',
-    categories: [ProductCategory.HOME_APPLIANCES],
-    description: 'Compact and energy-efficient microwave with grill function.',
-    purchasePrice: 250,
-    rentPrice: 10,
-    rentDuration: 'per week',
-  },
-  {
-    id: '4',
-    title: 'Treadmill',
-    categories: [ProductCategory.SPORTING_GOODS, ProductCategory.HOME_APPLIANCES],
-    description: 'Foldable treadmill with multiple speed settings and digital display.',
-    purchasePrice: 800,
-    rentPrice: 25,
-    rentDuration: 'per month',
-  },
-  {
-    id: '5',
-    title: 'Camping Tent',
-    categories: [ProductCategory.OUTDOOR],
-    description: 'Waterproof 4-person tent suitable for all seasons.',
-    purchasePrice: 300,
-    rentPrice: 20,
-    rentDuration: 'per day',
-  },
-]
+const products = ref<PRODUCT[]>([])
+
+onMounted(() => {
+  getProductForUser()
+    .then((result) => {
+      if (result?.data?.getProductForUser) {
+        console.log(result?.data?.getProductForUser)
+        products.value = result?.data?.getProductForUser
+      } else {
+      }
+    })
+    .catch((error) => {
+      console.error('Error creating product:', error)
+      throw error
+    })
+})
 
 const goToAddProducts = async () => {
   await nextTick()
@@ -71,6 +42,10 @@ const goToAddProducts = async () => {
         @click="goToAddProducts()"
       />
     </div>
-    <ProductCard v-for="product in products" :key="product.id" />
+
+    <div v-if="products.length" class="flex flex-col items-center gap-y-5 w-3/5">
+      <ProductCard v-for="product in products" :key="product.id" :product="product" />
+    </div>
+    <ProductListSkeleton v-else />
   </div>
 </template>

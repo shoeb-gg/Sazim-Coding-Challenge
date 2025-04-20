@@ -32,7 +32,7 @@ input PRODUCT_Input {
 # }
 
 type Query {
-  getProduct(id: String!): PRODUCT
+  getProductForUser: [PRODUCT]
   # login(credentials: LOGIN): LOGIN_RESPONSE
 }
 

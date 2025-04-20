@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { AuthGuard } from 'src/core/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
@@ -17,5 +17,11 @@ export class ProductResolver {
     @User() user: USER,
   ) {
     return await this.product.createProduct(productData, user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query()
+  async getProductForUser(@User() user: USER): Promise<PRODUCT[]> {
+    return await this.product.getProductsById(user.id);
   }
 }
