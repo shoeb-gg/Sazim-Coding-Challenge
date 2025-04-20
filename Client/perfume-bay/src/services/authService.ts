@@ -15,8 +15,8 @@ const GET_USER = gql`
 `
 
 const LOGIN = gql`
-  query Login($email: String!, $password: String!) {
-    login(credentials: { email: $email, password: $password }) {
+  query Login($credentials: LOGIN!) {
+    login(credentials: $credentials) {
       success
       access_token
     }
@@ -32,7 +32,12 @@ export const getUserById = (id: string) => {
 export const loginQuery = (email: string, password: string) => {
   return apolloClient.query({
     query: LOGIN,
-    variables: { email, password },
+    variables: {
+      credentials: {
+        email: email,
+        password: password,
+      },
+    },
   })
 }
 

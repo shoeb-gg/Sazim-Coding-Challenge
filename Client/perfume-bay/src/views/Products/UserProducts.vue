@@ -3,6 +3,7 @@ import ProductCard from '@/components/shared/ProductCard.vue'
 import { ProductCategory, type PRODUCT } from '@/models/Products.DTO'
 import Button from 'primevue/button'
 import router from '@/router'
+import { nextTick } from 'vue'
 
 const products: PRODUCT[] = [
   {
@@ -53,6 +54,8 @@ const products: PRODUCT[] = [
 ]
 
 const goToAddProducts = async () => {
+  await nextTick()
+
   router.push('/products/add')
 }
 </script>

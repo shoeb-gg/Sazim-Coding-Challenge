@@ -1,0 +1,53 @@
+type PRODUCT {
+  id: String
+  title: String!
+  categories: [String!]!
+  description: String!
+  purchasePrice: Float!
+  rentPrice: Float!
+  rentDuration: String!
+}
+
+input PRODUCT_Input {
+  title: String!
+  categories: [String!]!
+  description: String!
+  purchasePrice: Float!
+  rentPrice: Float!
+  rentDuration: String!
+}
+
+# type LOGIN_RESPONSE {
+#   success: Boolean!
+#   access_token: String!
+# }
+
+# type GetUser_Response {
+#   id: String
+#   firstName: String!
+#   lastName: String!
+#   email: String!
+#   phone: String
+#   address: String
+# }
+
+type Query {
+  getProduct(id: String!): PRODUCT
+  # login(credentials: LOGIN): LOGIN_RESPONSE
+}
+
+type Mutation {
+  createProduct(productData: PRODUCT_Input): PRODUCT
+
+  #   updateUser(
+  #     id: String!
+  #     firstName: String
+  #     lastName: String
+  #     email: String
+  #     password: String
+  #     phone: String
+  #     address: String
+  #   ): USER
+
+  #   deleteUser(id: String!): Boolean
+}

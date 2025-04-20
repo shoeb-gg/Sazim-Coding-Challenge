@@ -8,7 +8,7 @@ import { LOGIN, TOKEN } from 'src/models/Login.DTO';
 
 @Resolver('Auth')
 export class AuthResolver {
-  constructor(private auth: AuthService) {}
+  constructor(private readonly auth: AuthService) {}
 
   @Query()
   async login(@Args('credentials') credentials: LOGIN): Promise<TOKEN> {

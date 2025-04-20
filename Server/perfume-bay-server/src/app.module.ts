@@ -1,3 +1,4 @@
+import { ProductModule } from './modules/product/product.module';
 import { AuthModule } from './core/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { Module } from '@nestjs/common';
@@ -10,6 +11,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
+    ProductModule,
     AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

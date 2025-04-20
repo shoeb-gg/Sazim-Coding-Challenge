@@ -7,6 +7,7 @@ import AddProductSummary from '@/components/Products/add/AddProductSummary.vue'
 import { AddProductViewStates, type PRODUCT } from '@/models/Products.DTO'
 import { ref } from 'vue'
 import router from '@/router'
+import { CreateNewProduct } from '@/services/productService'
 
 const AddProductViewState = ref<number>(AddProductViewStates.title)
 
@@ -32,7 +33,10 @@ const productInfo = ref<PRODUCT>({
   rentDuration: 'per day',
 })
 
-const submitProduct = async () => {}
+const submitProduct = async () => {
+  console.log(productInfo.value)
+  CreateNewProduct(productInfo.value)
+}
 </script>
 
 <template>
