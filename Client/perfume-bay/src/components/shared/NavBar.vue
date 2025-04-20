@@ -11,7 +11,7 @@ const logout = () => {
   <div class="flex justify-end m-2">
     <Button
       type="submit"
-      class="text-lg! bg-red-700! border-red-900! text-white! font-bold"
+      class="text-lg! bg-red-600! border-red-900! text-white! font-bold"
       @click="logout()"
     >
       LOGOUT
