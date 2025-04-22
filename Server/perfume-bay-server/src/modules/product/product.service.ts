@@ -6,6 +6,24 @@ import { PrismaService } from 'src/prisma.service';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async updateProduct(productData: PRODUCT, userId: string): Promise<PRODUCT> {
+    try {
+      const updatedProduct = await this.prisma.pRODUCT.update({
+        data: { ...productData, userId: userId },
+        where: {
+          id: productData.id,
+        },
+      });
+
+      return updatedProduct as PRODUCT;
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        'Server Error while updatng product!',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
   async createProduct(productData: PRODUCT, userId: string): Promise<PRODUCT> {
     try {
       const newProduct = await this.prisma.pRODUCT.create({
@@ -16,7 +34,7 @@ export class ProductService {
     } catch (error) {
       console.error(error);
       throw new HttpException(
-        'Server Error while creating user!',
+        'Server Error while creating product!',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -70,10 +88,7 @@ export class ProductService {
       if (products) {
         return products;
       } else {
-        throw new HttpException(
-          'No Unique Products found!',
-          HttpStatus.NO_CONTENT,
-        );
+        throw new HttpException('No Products found!', HttpStatus.NO_CONTENT);
       }
     } catch (error) {
       console.error(error);

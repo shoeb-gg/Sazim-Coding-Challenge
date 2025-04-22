@@ -7,7 +7,7 @@ import AddProductSummary from '@/components/Products/add/AddProductSummary.vue'
 import { AddProductViewStates, type PRODUCT } from '@/models/Products.DTO'
 import { ref } from 'vue'
 import router from '@/router'
-import { CreateNewProduct, CreateNewProductSuccess } from '@/services/productService'
+import { createNewProduct, CreateNewProductSuccess } from '@/services/productService'
 import { useToast } from 'primevue/usetoast'
 
 const AddProductViewState = ref<number>(AddProductViewStates.title)
@@ -53,7 +53,7 @@ const productInfo = ref<PRODUCT>({
 })
 
 const submitProduct = async () => {
-  CreateNewProduct(productInfo.value)
+  createNewProduct(productInfo.value)
     .then((result) => {
       if (result?.data?.createProduct) {
         showSuccessToast()

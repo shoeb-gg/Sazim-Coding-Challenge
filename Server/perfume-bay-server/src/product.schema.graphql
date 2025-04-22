@@ -9,6 +9,7 @@ type PRODUCT {
 }
 
 input PRODUCT_Input {
+  id: String
   title: String!
   categories: [String!]!
   description: String!
@@ -24,16 +25,6 @@ type Query {
 
 type Mutation {
   createProduct(productData: PRODUCT_Input): PRODUCT
-
-  #   updateUser(
-  #     id: String!
-  #     firstName: String
-  #     lastName: String
-  #     email: String
-  #     password: String
-  #     phone: String
-  #     address: String
-  #   ): USER
-
+  updateProduct(productData: PRODUCT_Input): PRODUCT
   #   deleteUser(id: String!): Boolean
 }

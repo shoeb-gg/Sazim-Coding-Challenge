@@ -7,46 +7,12 @@ import Select from 'primevue/select'
 import { ProductCategory, type Rent_Duration } from '@/models/Products.DTO'
 import type { PRODUCT } from '@/models/Products.DTO'
 import Button from 'primevue/button'
-import { numberInput, textArrayInput, textInput } from '@/services/validationService'
-import { useToast } from 'primevue/usetoast'
 
 interface Props {
   product: PRODUCT | undefined
 }
 const props = defineProps<Props>()
-
-const editProduct = () => {
-  if (
-    textInput(props.product?.title) &&
-    textInput(props.product?.description) &&
-    textInput(props.product?.rentDuration) &&
-    numberInput(props.product?.purchasePrice) &&
-    numberInput(props.product?.rentPrice) &&
-    textArrayInput(props.product?.categories)
-  ) {
-    //submit
-    showValidationErrorToast()
-  } else {
-    showValidationErrorToast()
-  }
-}
-
-const toast = useToast()
-const showValidationErrorToast = () => {
-  toast.add({
-    severity: 'danger',
-    summary: 'Error',
-    detail: 'Please make sure all inputs are correct',
-    life: 3000,
-  })
-}
-// const updateTitle = (newTitle: string| undefined)=> {
-//       // this.$emit('update:title', newTitle);
-
-//       if (props.product && newTitle) {
-//         props.product.title = newTitle;
-//       }
-// }
+const emit = defineEmits(['update:updatedProduct', 'submit'])
 
 const categoryOptions = Object.values(ProductCategory)
 const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month']
@@ -59,7 +25,7 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
       class="w-full"
       type="text"
       variant="filled"
-      @update:modelValue="updateTitle"
+      @update:modelValue="emit('update:updatedProduct', { ...props.product, title: $event })"
     />
     <MultiSelect
       :model-value="props.product?.categories"
@@ -69,7 +35,7 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
       placeholder="Select a category"
       :maxSelectedLabels="3"
       class="w-full"
-      @update:modelValue="$emit('update:categories', $event)"
+      @update:modelValue="emit('update:updatedProduct', { ...props.product, categories: $event })"
     />
     <Textarea
       class="w-full"
@@ -77,6 +43,7 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
       rows="5"
       cols="30"
       :model-value="props.product?.description"
+      @update:modelValue="emit('update:updatedProduct', { ...props.product, description: $event })"
     />
 
     <div class="flex gap-x-5">
@@ -92,6 +59,9 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
             :maxFractionDigits="5"
             fluid
             variant="filled"
+            @update:modelValue="
+              emit('update:updatedProduct', { ...props.product, purchasePrice: $event })
+            "
           />
         </div>
       </span>
@@ -107,6 +77,9 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
             :maxFractionDigits="5"
             fluid
             variant="filled"
+            @update:modelValue="
+              emit('update:updatedProduct', { ...props.product, rentPrice: $event })
+            "
           />
         </div>
       </span>
@@ -119,6 +92,9 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
             placeholder="Select duration"
             class="w-full"
             variant="filled"
+            @update:modelValue="
+              emit('update:updatedProduct', { ...props.product, rentDuration: $event })
+            "
           />
         </div>
       </span>
@@ -129,7 +105,7 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
         icon="pi pi-send"
         icon-pos="right"
         label="Edit"
-        @click.prevent="editProduct()"
+        @click.prevent="emit('submit')"
       />
     </div>
   </div>
