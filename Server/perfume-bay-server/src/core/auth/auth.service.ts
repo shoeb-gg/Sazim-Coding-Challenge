@@ -51,7 +51,7 @@ export class AuthService {
       }
       return user as USER;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new HttpException(
         'Server Error while finding business data!',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -81,7 +81,7 @@ export class AuthService {
 
       return newUser as USER;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new HttpException(
         'Server Error while creating user!',
         HttpStatus.INTERNAL_SERVER_ERROR,

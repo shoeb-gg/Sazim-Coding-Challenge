@@ -15,8 +15,21 @@ const CreateProduct = gql`
   }
 `
 
-const GetProduct = gql`
-  query getProduct {
+const GetProductById = gql`
+  query getProductById($id: String!) {
+    getProductById(id: $id) {
+      id
+      title
+      categories
+      description
+      purchasePrice
+      rentPrice
+      rentDuration
+    }
+  }
+`
+const GetProductForUser = gql`
+  query getProductForUser {
     getProductForUser {
       id
       title
@@ -29,9 +42,17 @@ const GetProduct = gql`
   }
 `
 
+export const getProductById = (productId: string) => {
+  return apolloClient.query({
+    query: GetProductById,
+    variables: {
+      id: productId,
+    },
+  })
+}
 export const getProductForUser = () => {
   return apolloClient.query({
-    query: GetProduct,
+    query: GetProductForUser,
   })
 }
 

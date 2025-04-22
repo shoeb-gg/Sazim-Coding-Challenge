@@ -71,7 +71,6 @@ const submitProduct = async () => {
 </script>
 
 <template>
-  <div>{{ productInfo }}</div>
   <ProductTitle
     v-model:title="productInfo.title"
     v-if="AddProductViewState === AddProductViewStates.title"

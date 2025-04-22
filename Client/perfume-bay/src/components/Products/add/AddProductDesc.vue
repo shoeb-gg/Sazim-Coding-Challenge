@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { ref } from 'vue'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 
@@ -8,8 +7,6 @@ const emit = defineEmits(['back', 'next', 'update:description'])
 defineProps({
   description: String,
 })
-
-// const description = ref<string>('')
 </script>
 <template>
   <div class="h-[65vh] flex flex-col justify-center items-center gap-y-8 mb-12 w-2/5">

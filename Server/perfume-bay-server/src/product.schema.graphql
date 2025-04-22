@@ -17,23 +17,9 @@ input PRODUCT_Input {
   rentDuration: String!
 }
 
-# type LOGIN_RESPONSE {
-#   success: Boolean!
-#   access_token: String!
-# }
-
-# type GetUser_Response {
-#   id: String
-#   firstName: String!
-#   lastName: String!
-#   email: String!
-#   phone: String
-#   address: String
-# }
-
 type Query {
   getProductForUser: [PRODUCT]
-  # login(credentials: LOGIN): LOGIN_RESPONSE
+  getProductById(id: String!): PRODUCT
 }
 
 type Mutation {

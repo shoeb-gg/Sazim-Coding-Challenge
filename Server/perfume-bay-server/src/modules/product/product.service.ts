@@ -14,7 +14,7 @@ export class ProductService {
 
       return newProduct as PRODUCT;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new HttpException(
         'Server Error while creating user!',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -22,7 +22,7 @@ export class ProductService {
     }
   }
 
-  async getProductsById(userId: string): Promise<PRODUCT[]> {
+  async getProductForUser(userId: string): Promise<PRODUCT[]> {
     try {
       const products: PRODUCT[] = await this.prisma.pRODUCT.findMany({
         where: {
@@ -41,7 +41,42 @@ export class ProductService {
 
       return products;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw new HttpException(
+        'Server Error while finding products data!',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getProductById(userId: string, productId: string): Promise<PRODUCT> {
+    try {
+      const products: PRODUCT | null = await this.prisma.pRODUCT.findUnique({
+        where: {
+          id: productId,
+          userId: userId,
+        },
+        select: {
+          id: true,
+          title: true,
+          categories: true,
+          description: true,
+          purchasePrice: true,
+          rentPrice: true,
+          rentDuration: true,
+        },
+      });
+
+      if (products) {
+        return products;
+      } else {
+        throw new HttpException(
+          'No Unique Products found!',
+          HttpStatus.NO_CONTENT,
+        );
+      }
+    } catch (error) {
+      console.error(error);
       throw new HttpException(
         'Server Error while finding products data!',
         HttpStatus.INTERNAL_SERVER_ERROR,

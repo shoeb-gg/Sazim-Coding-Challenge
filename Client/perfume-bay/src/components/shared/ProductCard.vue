@@ -1,20 +1,36 @@
 <script setup lang="ts">
 import type { PRODUCT } from '@/models/Products.DTO'
+import router from '@/router'
 import Button from 'primevue/button'
+import { nextTick } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   product: PRODUCT
 }>()
+
+const goToEditProduct = async () => {
+  await nextTick()
+  router.push(`/products/edit/${props.product.id}`)
+}
+
+const deleteProduct = () => {
+  // const productData = product
+  console.log('delete', props.product.id)
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 border-2 p-8 w-full border-gray-500 rounded-lg">
+  <div
+    class="flex flex-col gap-3 border-2 p-8 w-full border-gray-500 rounded-lg"
+    @click.prevent="goToEditProduct()"
+  >
     <div class="text-2xl font-semibold flex justify-between items-center w-full">
       <span> {{ product.title }} </span>
       <Button
         class="text-white! bg-red-500! border-red-500! min-w-10! min-h-10!"
         icon="pi pi-trash"
         severity="danger"
+        @click.prevent.stop="deleteProduct()"
       />
     </div>
     <div class="w-full">

@@ -22,6 +22,15 @@ export class ProductResolver {
   @UseGuards(AuthGuard)
   @Query()
   async getProductForUser(@User() user: USER): Promise<PRODUCT[]> {
-    return await this.product.getProductsById(user.id);
+    return await this.product.getProductForUser(user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query()
+  async getProductById(
+    @Args('id') id: string,
+    @User() user: USER,
+  ): Promise<PRODUCT> {
+    return await this.product.getProductById(user.id, id);
   }
 }

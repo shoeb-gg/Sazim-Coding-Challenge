@@ -13,9 +13,7 @@ onMounted(() => {
   getProductForUser()
     .then((result) => {
       if (result?.data?.getProductForUser) {
-        console.log(result?.data?.getProductForUser)
         products.value = result?.data?.getProductForUser
-      } else {
       }
     })
     .catch((error) => {

@@ -20,7 +20,6 @@ defineProps({
       :v-model="categories"
       :options="categoryOptions"
       variant="filled"
-      filter
       placeholder="Select a category"
       :maxSelectedLabels="3"
       class="w-full"
