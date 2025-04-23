@@ -7,10 +7,12 @@ import AddProductSummary from '@/components/Products/add/AddProductSummary.vue'
 import { AddProductViewStates, type PRODUCT } from '@/models/Products.DTO'
 import { ref } from 'vue'
 import router from '@/router'
-import { createNewProduct, CreateNewProductSuccess } from '@/services/productService'
+import { CreateNewProductSuccess, CreateProduct, refreshProducts } from '@/services/productService'
 import { useToast } from 'primevue/usetoast'
+import { useMutation } from '@vue/apollo-composable'
 
 const AddProductViewState = ref<number>(AddProductViewStates.title)
+const { mutate: createProductMutation } = useMutation(CreateProduct)
 
 const moveToNextView = () => {
   if (AddProductViewState.value < AddProductViewStates.summary) {
@@ -53,20 +55,23 @@ const productInfo = ref<PRODUCT>({
 })
 
 const submitProduct = async () => {
-  createNewProduct(productInfo.value)
-    .then((result) => {
-      if (result?.data?.createProduct) {
-        showSuccessToast()
-        CreateNewProductSuccess()
-      } else {
-        showErrorToast()
-      }
+  try {
+    const { data } = await createProductMutation({
+      productData: { ...productInfo.value },
     })
-    .catch((error) => {
+
+    if (data?.createProduct) {
+      refreshProducts()
+      showSuccessToast()
+      CreateNewProductSuccess()
+    } else {
       showErrorToast()
-      console.error('Error creating product:', error)
-      throw error
-    })
+    }
+  } catch (error) {
+    showErrorToast()
+    console.error('Error creating product:', error)
+    throw error
+  }
 }
 </script>
 

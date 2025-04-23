@@ -54,3 +54,9 @@ export const handleLogOut = async () => {
 
   router.push('/login')
 }
+
+export const goToAllProducts = async () => {
+  await nextTick()
+
+  router.push('/products/all')
+}

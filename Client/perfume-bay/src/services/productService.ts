@@ -4,7 +4,7 @@ import type { PRODUCT } from '@/models/Products.DTO'
 import { nextTick } from 'vue'
 import router from '@/router'
 
-const CreateProduct = gql`
+export const CreateProduct = gql`
   mutation CreateProduct($productData: PRODUCT_Input!) {
     createProduct(productData: $productData) {
       id
@@ -44,7 +44,7 @@ const GetProductById = gql`
     }
   }
 `
-const GetProductForUser = gql`
+export const GetProductForUser = gql`
   query getProductForUser {
     getProductForUser {
       id
@@ -57,31 +57,37 @@ const GetProductForUser = gql`
     }
   }
 `
-export const createNewProduct = (productData: PRODUCT) => {
+
+export const GetAllProducts = gql`
+  query getAllProducts {
+    getAllProducts {
+      id
+      title
+      categories
+      description
+      purchasePrice
+      rentPrice
+      rentDuration
+    }
+  }
+`
+export const updateProduct = (productData: PRODUCT | undefined) => {
   return apolloClient.mutate({
-    mutation: CreateProduct,
+    mutation: UpdateProduct,
     variables: {
       productData: {
         ...productData,
       },
     },
-  })
-}
-export const updateProduct = (productData: PRODUCT | undefined) => {
-  console.log(productData)
 
-  if (productData) {
-    return apolloClient.mutate({
-      mutation: UpdateProduct,
-      variables: {
-        productData: {
-          ...productData,
-        },
-      },
-    })
-  } else {
-    console.error('No Product Edit Data')
-  }
+    update: (cache, { data: { productData } }) => {
+      cache.writeQuery({
+        query: GetProductById,
+        variables: { id: productData.id },
+        data: { getProductById: productData },
+      })
+    },
+  })
 }
 
 export const getProductById = (productId: string) => {
@@ -101,4 +107,11 @@ export const getProductForUser = () => {
 export const CreateNewProductSuccess = async () => {
   await nextTick()
   router.push('/products/my')
+}
+
+export const refreshProducts = async () => {
+  return await apolloClient.query({
+    query: GetProductForUser,
+    fetchPolicy: 'network-only', // Skip cache, get fresh data
+  })
 }

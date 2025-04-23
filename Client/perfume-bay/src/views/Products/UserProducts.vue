@@ -4,23 +4,12 @@ import ProductListSkeleton from '@/components/shared/ProductListSkeleton.vue'
 import { type PRODUCT } from '@/models/Products.DTO'
 import Button from 'primevue/button'
 import router from '@/router'
-import { nextTick, onMounted, ref } from 'vue'
-import { getProductForUser } from '@/services/productService'
+import { computed, nextTick, type Ref } from 'vue'
+import { GetProductForUser } from '@/services/productService'
+import { useQuery } from '@vue/apollo-composable'
 
-const products = ref<PRODUCT[]>([])
-
-onMounted(() => {
-  getProductForUser()
-    .then((result) => {
-      if (result?.data?.getProductForUser) {
-        products.value = result?.data?.getProductForUser
-      }
-    })
-    .catch((error) => {
-      console.error('Error creating product:', error)
-      throw error
-    })
-})
+const { result, loading } = useQuery(GetProductForUser)
+const products: Ref<PRODUCT[]> = computed(() => result.value?.getProductForUser ?? [])
 
 const goToAddProducts = async () => {
   await nextTick()
@@ -41,7 +30,7 @@ const goToAddProducts = async () => {
       />
     </div>
 
-    <div v-if="products.length" class="flex flex-col items-center gap-y-5 w-3/5">
+    <div v-if="!loading" class="flex flex-col items-center gap-y-5 w-3/5">
       <ProductCard v-for="product in products" :key="product.id" :product="product" />
     </div>
     <ProductListSkeleton v-else />

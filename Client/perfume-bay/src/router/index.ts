@@ -11,11 +11,17 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/auth/LoginView.vue'),
+      beforeEnter: (to, from, next) => {
+        alreadyLoggedIn(next)
+      },
     },
     {
       path: '/register',
       name: 'register',
       component: () => import('@/views/auth/RegisterView.vue'),
+      beforeEnter: (to, from, next) => {
+        alreadyLoggedIn(next)
+      },
     },
     {
       path: '/about',
@@ -26,34 +32,44 @@ const router = createRouter({
       path: '/products/my',
       name: 'my-products',
       component: () => import('../views/Products/UserProducts.vue'),
+      beforeEnter: (to, from, next) => {
+        checkToken(next)
+      },
     },
     {
       path: '/products/add',
       name: 'add-products',
       component: () => import('../views/Products/AddProducts.vue'),
+      beforeEnter: (to, from, next) => {
+        checkToken(next)
+      },
     },
     {
       path: '/products/edit/:id',
       name: 'edit-products',
       component: () => import('../views/Products/EditProduct.vue'),
+      beforeEnter: (to, from, next) => {
+        checkToken(next)
+      },
+    },
+    {
+      path: '/products/all',
+      name: 'all-products',
+      component: () => import('../views/Products/AllProducts.vue'),
     },
   ],
 })
 
-// 🔐 Global navigation guard
-// This guard checks if the user has access token stored in browser localstorage before accessing certain routes
-router.beforeEach((to, from, next) => {
+const checkToken = (next) => {
   const token = localStorage.getItem('access_token')
+  if (token) next()
+  else next('/login')
+}
 
-  const publicPages = ['/login', '/register']
-
-  if (!token && !publicPages.includes(to.path)) {
-    next('/login') // not logged in and trying to access a protected route
-  } else if (token && to.path === '/login') {
-    next('/products/my') // logged in but trying to visit login
-  } else {
-    next() // allow access
-  }
-})
+const alreadyLoggedIn = (next) => {
+  const token = localStorage.getItem('access_token')
+  if (token) next('/products/my')
+  else next()
+}
 
 export default router

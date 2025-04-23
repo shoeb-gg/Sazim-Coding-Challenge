@@ -3,14 +3,19 @@ import type { PRODUCT } from '@/models/Products.DTO'
 import router from '@/router'
 import Button from 'primevue/button'
 import { nextTick } from 'vue'
+import { useRoute } from 'vue-router'
 
 const props = defineProps<{
   product: PRODUCT
 }>()
 
-const goToEditProduct = async () => {
+const route = useRoute()
+
+const onProductClick = async () => {
   await nextTick()
-  router.push(`/products/edit/${props.product.id}`)
+
+  if (route.fullPath !== '/products/all') {
+  } else router.push(`/products/edit/${props.product.id}`)
 }
 
 const deleteProduct = () => {
@@ -22,11 +27,12 @@ const deleteProduct = () => {
 <template>
   <div
     class="flex flex-col gap-3 border-2 p-8 w-full border-gray-500 rounded-lg"
-    @click.prevent="goToEditProduct()"
+    @click.prevent="onProductClick()"
   >
     <div class="text-2xl font-semibold flex justify-between items-center w-full">
       <span> {{ product.title }} </span>
       <Button
+        v-if="route.fullPath === '/products/my'"
         class="text-white! bg-red-500! border-red-500! min-w-10! min-h-10!"
         icon="pi pi-trash"
         severity="danger"

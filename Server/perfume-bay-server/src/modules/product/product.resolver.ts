@@ -42,4 +42,9 @@ export class ProductResolver {
   ): Promise<PRODUCT> {
     return await this.product.getProductById(user.id, id);
   }
+
+  @Query()
+  async getAllProducts(): Promise<PRODUCT[]> {
+    return await this.product.getAllProducts();
+  }
 }

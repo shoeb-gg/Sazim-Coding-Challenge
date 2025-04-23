@@ -16,9 +16,34 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        getProductById: {
+          keyArgs: ['id'],
+        },
+        getProductForUser: {
+          keyArgs: [],
+        },
+      },
+    },
+  },
+})
+
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: cache,
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'cache-first', // Use cache first by default, fetch from network only if needed
+      errorPolicy: 'all',
+    },
+    watchQuery: {
+      fetchPolicy: 'cache-and-network', // For reactive queries, this will update UI from cache first, then refresh from network
+      errorPolicy: 'all',
+    },
+  },
 })
 
 export default apolloClient
