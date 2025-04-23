@@ -57,6 +57,11 @@ const router = createRouter({
       name: 'all-products',
       component: () => import('../views/Products/AllProducts.vue'),
     },
+    {
+      path: '/products/buyrent/:id',
+      name: 'buy-rent-products',
+      component: () => import('../views/Products/ProductBuyRent.vue'),
+    },
   ],
 })
 

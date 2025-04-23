@@ -18,7 +18,7 @@ export const CreateProduct = gql`
   }
 `
 const UpdateProduct = gql`
-  mutation UpdateProduct($productData: PRODUCT_Input!) {
+  mutation UpdateProduct($productData: PRODUCT_Input_Update!) {
     updateProduct(productData: $productData) {
       id
       title
@@ -31,7 +31,7 @@ const UpdateProduct = gql`
   }
 `
 
-const GetProductById = gql`
+export const GetProductById = gql`
   query getProductById($id: String!) {
     getProductById(id: $id) {
       id

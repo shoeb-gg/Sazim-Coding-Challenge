@@ -14,8 +14,8 @@ const route = useRoute()
 const onProductClick = async () => {
   await nextTick()
 
-  if (route.fullPath !== '/products/all') {
-  } else router.push(`/products/edit/${props.product.id}`)
+  if (route.fullPath === '/products/all') router.push(`/products/buyrent/${props.product.id}`)
+  else router.push(`/products/edit/${props.product.id}`)
 }
 
 const deleteProduct = () => {
@@ -26,7 +26,7 @@ const deleteProduct = () => {
 
 <template>
   <div
-    class="flex flex-col gap-3 border-2 p-8 w-full border-gray-500 rounded-lg"
+    class="flex flex-col gap-3 border-2 p-8 w-full border-gray-500 rounded-lg cursor-pointer"
     @click.prevent="onProductClick()"
   >
     <div class="text-2xl font-semibold flex justify-between items-center w-full">
@@ -53,7 +53,5 @@ const deleteProduct = () => {
     <div class="text-justify w-full my-4">
       {{ product.description }}
     </div>
-
-    <div class="text-sm w-full">Date Posted: 2023-10-01</div>
   </div>
 </template>

@@ -24,6 +24,7 @@ export class ProductService {
       );
     }
   }
+
   async createProduct(productData: PRODUCT, userId: string): Promise<PRODUCT> {
     try {
       const newProduct = await this.prisma.pRODUCT.create({
@@ -66,6 +67,7 @@ export class ProductService {
       );
     }
   }
+
   async getAllProducts(): Promise<PRODUCT[]> {
     try {
       const products: PRODUCT[] = await this.prisma.pRODUCT.findMany({

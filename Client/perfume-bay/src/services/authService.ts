@@ -60,3 +60,9 @@ export const goToAllProducts = async () => {
 
   router.push('/products/all')
 }
+
+export const goToMyProducts = async () => {
+  await nextTick()
+
+  router.push('/products/my')
+}
