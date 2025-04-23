@@ -36,5 +36,5 @@ type Query {
 type Mutation {
   createProduct(productData: PRODUCT_Input): PRODUCT
   updateProduct(productData: PRODUCT_Input_Update): PRODUCT
-  #   deleteUser(id: String!): Boolean
+  deleteProduct(id: String!): Boolean
 }

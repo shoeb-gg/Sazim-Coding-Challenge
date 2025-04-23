@@ -47,4 +47,10 @@ export class ProductResolver {
   async getAllProducts(): Promise<PRODUCT[]> {
     return await this.product.getAllProducts();
   }
+
+  @UseGuards(AuthGuard)
+  @Mutation()
+  async deleteProduct(@Args('id') id: string): Promise<boolean> {
+    return await this.product.deleteProduct(id);
+  }
 }

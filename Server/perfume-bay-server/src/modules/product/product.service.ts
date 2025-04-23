@@ -98,6 +98,21 @@ export class ProductService {
     }
   }
 
+  async deleteProduct(productId: string): Promise<boolean> {
+    try {
+      await this.prisma.pRODUCT.delete({
+        where: {
+          id: productId,
+        },
+      });
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
   async getProductById(
     userId: string | undefined,
     productId: string,
