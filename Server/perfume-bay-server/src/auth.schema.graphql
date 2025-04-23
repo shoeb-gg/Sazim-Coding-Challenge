@@ -8,6 +8,23 @@ type USER {
   address: String
 }
 
+input CREATE_USER_INPUT {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  phone: String
+  address: String
+}
+type CREATE_USER_INPUT_Response {
+  id: String
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  address: String
+}
+
 input LOGIN {
   email: String!
   password: String!
@@ -33,14 +50,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(
-    firstName: String!
-    lastName: String!
-    email: String!
-    password: String!
-    phone: String
-    address: String
-  ): USER
+  createUser(userInfo: CREATE_USER_INPUT!): CREATE_USER_INPUT_Response
 
   updateUser(
     id: String!

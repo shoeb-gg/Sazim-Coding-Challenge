@@ -6,7 +6,10 @@ import { PrismaService } from 'src/prisma.service';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async updateProduct(productData: PRODUCT, userId: string): Promise<PRODUCT> {
+  async updateProduct(
+    productData: PRODUCT,
+    userId: string | undefined,
+  ): Promise<PRODUCT> {
     try {
       const updatedProduct = await this.prisma.pRODUCT.update({
         data: { ...productData, userId: userId },
@@ -25,7 +28,10 @@ export class ProductService {
     }
   }
 
-  async createProduct(productData: PRODUCT, userId: string): Promise<PRODUCT> {
+  async createProduct(
+    productData: PRODUCT,
+    userId: string | undefined,
+  ): Promise<PRODUCT> {
     try {
       const newProduct = await this.prisma.pRODUCT.create({
         data: { ...productData, userId: userId },
@@ -41,7 +47,7 @@ export class ProductService {
     }
   }
 
-  async getProductForUser(userId: string): Promise<PRODUCT[]> {
+  async getProductForUser(userId: string | undefined): Promise<PRODUCT[]> {
     try {
       const products: PRODUCT[] = await this.prisma.pRODUCT.findMany({
         where: {
@@ -92,7 +98,10 @@ export class ProductService {
     }
   }
 
-  async getProductById(userId: string, productId: string): Promise<PRODUCT> {
+  async getProductById(
+    userId: string | undefined,
+    productId: string,
+  ): Promise<PRODUCT> {
     try {
       const products: PRODUCT | null = await this.prisma.pRODUCT.findUnique({
         where: {

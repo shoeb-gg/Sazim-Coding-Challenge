@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { USER } from 'src/models/User.DTO';
+import { USER, USER_Signup } from 'src/models/User.DTO';
 import { PrismaService } from 'src/prisma.service';
 import { UserService } from '../user/user.service';
 import { LOGIN, TOKEN } from 'src/models/Login.DTO';
@@ -59,27 +59,13 @@ export class AuthService {
     }
   }
 
-  async createUser(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    phone?: string,
-    address?: string,
-  ): Promise<USER> {
+  async createUser(userInfo: USER_Signup): Promise<USER_Signup> {
     try {
       const newUser = await this.prisma.uSER.create({
-        data: {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          phone: phone,
-          address: address,
-        },
+        data: { ...userInfo },
       });
 
-      return newUser as USER;
+      return newUser as USER_Signup;
     } catch (error) {
       console.error(error);
       throw new HttpException(

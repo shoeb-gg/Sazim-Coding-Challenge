@@ -23,6 +23,19 @@ const LOGIN = gql`
   }
 `
 
+export const CreateUser = gql`
+  mutation CreateUser($userInfo: CREATE_USER_INPUT!) {
+    createUser(userInfo: $userInfo) {
+      id
+      firstName
+      lastName
+      email
+      phone
+      address
+    }
+  }
+`
+
 export const getUserById = (id: string) => {
   return apolloClient.query({
     query: GET_USER,
@@ -65,4 +78,10 @@ export const goToMyProducts = async () => {
   await nextTick()
 
   router.push('/products/my')
+}
+
+export const SignUpSuccess = async () => {
+  await nextTick()
+
+  router.push('/login')
 }
