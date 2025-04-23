@@ -7,12 +7,17 @@ import Select from 'primevue/select'
 import { ProductCategory, type Rent_Duration } from '@/models/Products.DTO'
 import type { PRODUCT } from '@/models/Products.DTO'
 import Button from 'primevue/button'
+import router from '@/router'
 
 interface Props {
   product: PRODUCT | undefined
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['update:updatedProduct', 'submit'])
+
+const back = () => {
+  router.back()
+}
 
 const categoryOptions = Object.values(ProductCategory)
 const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month']
@@ -99,7 +104,14 @@ const rentDurationOptions: Rent_Duration[] = ['per day', 'per week', 'per month'
         </div>
       </span>
     </div>
-    <div class="flex justify-end">
+    <div class="flex justify-between">
+      <Button
+        class="text-white! bg-sky-600! border-sky-600! min-w-10! min-h-10!"
+        label="Back"
+        severity="danger"
+        @click="back"
+      />
+
       <Button
         class="text-white! bg-emerald-600! border-emerald-600! min-w-20 font-semibold text-lg!"
         icon="pi pi-send"

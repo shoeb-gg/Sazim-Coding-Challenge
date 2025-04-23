@@ -7,9 +7,14 @@ import type { PRODUCT } from '@/models/Products.DTO'
 import { ref } from 'vue'
 import Button from 'primevue/button'
 import router from '@/router'
+import Dialog from 'primevue/dialog'
+import RentDialog from './RentDialog.vue'
+import BuyDialog from './BuyDialog.vue'
 
 const toast = useToast()
 const product = ref<PRODUCT | undefined>()
+const rentDialogVisible = ref(false)
+const buyDialogVisible = ref(false)
 
 const { onResult, loading } = useQuery(
   GetProductById,
@@ -60,13 +65,35 @@ const back = () => {
           class="text-white! bg-sky-600! border-sky-600! min-w-10! min-h-10! mr-2"
           label="Rent"
           severity="danger"
+          @click="rentDialogVisible = true"
         />
         <Button
           class="text-white! bg-sky-600! border-sky-600! min-w-10! min-h-10!"
           label="Buy"
           severity="danger"
+          @click="buyDialogVisible = true"
         />
       </span>
     </div>
   </div>
+
+  <Dialog
+    v-model:visible="rentDialogVisible"
+    dismissableMask
+    modal
+    header="Rental Period"
+    :style="{ width: '50vw' }"
+  >
+    <RentDialog v-model:visible="rentDialogVisible" />
+  </Dialog>
+
+  <Dialog
+    v-model:visible="buyDialogVisible"
+    dismissableMask
+    modal
+    header="Are you sure you want to buy this product?"
+    :style="{ width: '50vw' }"
+  >
+    <BuyDialog v-model:visible="buyDialogVisible" />
+  </Dialog>
 </template>

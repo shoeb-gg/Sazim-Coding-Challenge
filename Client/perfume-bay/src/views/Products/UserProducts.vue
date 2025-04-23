@@ -33,6 +33,8 @@ const goToAddProducts = async () => {
     <div v-if="!loading" class="flex flex-col items-center gap-y-5 w-3/5">
       <ProductCard v-for="product in products" :key="product.id" :product="product" />
     </div>
-    <ProductListSkeleton v-else />
+    <div v-else class="w-full flex flex-col items-center gap-y-5">
+      <ProductListSkeleton v-for="num in [1, 2, 3]" :key="num" />
+    </div>
   </div>
 </template>
