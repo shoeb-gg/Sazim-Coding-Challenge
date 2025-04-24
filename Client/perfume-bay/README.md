@@ -1,45 +1,85 @@
-# perfume-bay
+# 🌟 PerfumeBay 🌟
 
-This template should help get you started developing with Vue 3 in Vite.
+A full-stack application for buying and trading perfumes.
 
-## Recommended IDE Setup
+## 📋 Project Overview
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+PerfumeBay is a comprehensive web application that allows users to buy, sell, and manage perfume products. This platform connects perfume enthusiasts and enables seamless transactions.
 
-## Type Support for `.vue` Imports in TS
+## 🚀 Features
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- 👤 **User Authentication**
 
-## Customize configuration
+  - Login and registration system
+  - JWT-based authentication and authorization
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- 🛍️ **Product Management**
 
-## Project Setup
+  - Create your own perfume listings
+  - View products created by all users
+  - Edit and delete your own listings
+  - Purchase products from other users
+  - View your purchased products list
 
-```sh
-npm install
+- 🔜 **Coming Soon**
+  - Perfume rental system
+  - Dedicated views for rented, sold, and lent items
+
+## 💻 Technology Stack
+
+### Frontend
+
+- 🖌️ Vue.js framework
+- 🧩 PrimeVue component library
+- 🎨 TailwindCSS for styling
+- 🔄 Apollo Client with caching enabled
+
+### Backend
+
+- 🏗️ NestJS with Fastify adapter
+- 🚀 Apollo Server for GraphQL implementation
+- 🔒 JWT authentication and authorization
+- 🗄️ Prisma ORM for database operations
+
+### Database
+
+- 📊 PostgreSQL hosted by Supabase
+
+### API
+
+- 📡 GraphQL for frontend-backend communication
+
+## 🐳 Deployment
+
+The entire project is containerized with Docker for easy setup and deployment.
+
+### Quick Start
+
+1. Clone the repository
+2. Open a terminal in the parent folder
+3. Run the following command:
+   ```
+   docker-compose up -d
+   ```
+
+## 🔧 Project Structure
+
+```
+perfumebay/
+├── frontend/          # Vue.js client application
+├── backend/           # NestJS server application
+├── docker-compose.yml # Docker configuration
+└── README.md          # This file
 ```
 
-### Compile and Hot-Reload for Development
+## 🤝 Contributing
 
-```sh
-npm run dev
-```
+Contributions are welcome! Feel free to open issues or submit pull requests to help improve PerfumeBay.
 
-### Type-Check, Compile and Minify for Production
+## 📝 License
 
-```sh
-npm run build
-```
+[Your license information here]
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+---
 
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+⭐ Developed with passion for perfume enthusiasts everywhere! ⭐

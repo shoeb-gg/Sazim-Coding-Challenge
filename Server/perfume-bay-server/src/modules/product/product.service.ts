@@ -114,7 +114,6 @@ export class ProductService {
           userId: userId,
         },
       });
-      console.log(purchases);
 
       if (purchases.length === 0) return [];
 
@@ -123,7 +122,6 @@ export class ProductService {
       purchases.forEach((purchase) => {
         productIds.push(purchase.product_id);
       });
-      console.log(productIds);
 
       const purchasedProducts: PRODUCT[] = await this.prisma.pRODUCT.findMany({
         select: {
@@ -141,8 +139,6 @@ export class ProductService {
           },
         },
       });
-
-      console.log(productIds);
 
       return purchasedProducts;
     } catch (error) {
