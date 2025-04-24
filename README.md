@@ -77,10 +77,4 @@ perfumebay/
 
 Contributions are welcome! Feel free to open issues or submit pull requests to help improve PerfumeBay.
 
-## 📝 License
-
-[Your license information here]
-
----
-
 ⭐ Developed with passion for perfume enthusiasts everywhere! ⭐
