@@ -3,8 +3,8 @@ export type PRODUCT = {
   title: string
   categories: ProductCategory[]
   description: string
-  purchasePrice: number
-  rentPrice: number
+  purchasePrice: number | null
+  rentPrice: number | null
   rentDuration: Rent_Duration
 }
 export type Rent_Duration = 'per day' | 'per week' | 'per month'

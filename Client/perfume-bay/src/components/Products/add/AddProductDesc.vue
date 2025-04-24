@@ -1,12 +1,26 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
+import { ref, watch } from 'vue'
 
 const emit = defineEmits(['back', 'next', 'update:description'])
 
-defineProps({
+const props = defineProps({
   description: String,
 })
+
+const descriptionValue = ref<string>(props.description ?? '')
+watch(
+  () => props.description,
+  (newVal) => {
+    descriptionValue.value = newVal ?? ''
+  },
+)
+
+const onInput = (val: string) => {
+  descriptionValue.value = val
+  emit('update:description', val)
+}
 </script>
 <template>
   <div class="h-[65vh] flex flex-col justify-center items-center gap-y-8 mb-12 w-2/5">
@@ -14,8 +28,8 @@ defineProps({
 
     <Textarea
       class="w-full"
-      :v-model="description"
-      @update:modelValue="$emit('update:description', $event)"
+      v-model="descriptionValue"
+      @input="onInput($event.target.value)"
       variant="filled"
       rows="5"
       cols="30"

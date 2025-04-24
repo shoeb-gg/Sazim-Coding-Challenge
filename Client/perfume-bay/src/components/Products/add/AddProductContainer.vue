@@ -49,8 +49,8 @@ const productInfo = ref<PRODUCT>({
   title: '',
   categories: [],
   description: '',
-  purchasePrice: 0,
-  rentPrice: 0,
+  purchasePrice: null,
+  rentPrice: null,
   rentDuration: 'per day',
 })
 
