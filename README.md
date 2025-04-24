@@ -24,6 +24,7 @@ PerfumeBay is a comprehensive web application that allows users to buy, sell, an
 - 🔜 **Coming Soon**
   - Perfume rental system
   - Dedicated views for rented, sold, and lent items
+  - And so much more...
 
 ## 💻 Technology Stack
 
