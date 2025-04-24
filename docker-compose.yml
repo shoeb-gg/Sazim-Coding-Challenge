@@ -1,9 +1,29 @@
+version: "3.8"
+
 services:
-  db:
-    image: postgres:latest
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=sazim
+  frontend:
+    build:
+      context: ./Client/perfume-bay
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "5173:5173"
+    volumes:
+      - ./Client/perfume-bay:/app
+      - /app/node_modules
+    working_dir: /app
+    command: vite
+    environment:
+      - HOST=0.0.0.0
+
+  backend:
+    build:
+      context: ./Server/perfume-bay-server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Server/perfume-bay-server:/app
+      - /app/node_modules
+      - ./Server/perfume-bay-server/.env:/app/.env
+    working_dir: /app
+    command: npm run start
