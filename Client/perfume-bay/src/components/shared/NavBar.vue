@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
-import { goToAllProducts, goToMyProducts, handleLogOut } from '@/services/authService'
+import {
+  goToAllProducts,
+  gotoBuyRentList,
+  goToMyProducts,
+  handleLogOut,
+} from '@/services/authService'
 import { useRoute } from 'vue-router'
 
 const logout = () => {
@@ -8,6 +13,9 @@ const logout = () => {
 }
 const toAllProducts = () => {
   goToAllProducts()
+}
+const toBuyRentList = () => {
+  gotoBuyRentList()
 }
 const toMyProducts = () => {
   goToMyProducts()
@@ -19,12 +27,24 @@ const route = useRoute()
 <template>
   <div class="flex justify-end m-2 mb-5 gap-x-2">
     <Button
-      v-if="route.fullPath === '/products/my'"
+      v-if="
+        route.fullPath !== '/login' &&
+        route.fullPath !== '/register' &&
+        route.fullPath !== '/buyrent/list'
+      "
+      class="text-lg! bg-sky-600! border-sky-900! text-white! font-bold"
+      @click="toBuyRentList"
+    >
+      Buy/Rent List
+    </Button>
+    <Button
+      v-if="route.fullPath !== '/products/all'"
       class="text-lg! bg-sky-600! border-sky-900! text-white! font-bold"
       @click="toAllProducts"
     >
       All Products
     </Button>
+
     <Button
       v-if="route.fullPath === '/products/all'"
       class="text-lg! bg-sky-600! border-sky-900! text-white! font-bold"

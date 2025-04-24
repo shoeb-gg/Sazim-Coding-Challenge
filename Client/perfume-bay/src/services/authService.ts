@@ -79,6 +79,11 @@ export const goToMyProducts = async () => {
 
   router.push('/products/my')
 }
+export const gotoBuyRentList = async () => {
+  await nextTick()
+
+  router.push('/products/buyrent/list')
+}
 
 export const SignUpSuccess = async () => {
   await nextTick()

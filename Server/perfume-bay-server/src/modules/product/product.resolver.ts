@@ -36,11 +36,8 @@ export class ProductResolver {
 
   @UseGuards(AuthGuard)
   @Query()
-  async getProductById(
-    @Args('id') id: string,
-    @User() user: USER,
-  ): Promise<PRODUCT> {
-    return await this.product.getProductById(user.id, id);
+  async getProductById(@Args('id') id: string): Promise<PRODUCT> {
+    return await this.product.getProductById(id);
   }
 
   @Query()
@@ -52,5 +49,22 @@ export class ProductResolver {
   @Mutation()
   async deleteProduct(@Args('id') id: string): Promise<boolean> {
     return await this.product.deleteProduct(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation()
+  async buyProduct(
+    @Args('id') id: string,
+    @User() user: USER,
+  ): Promise<boolean> {
+    if (user.id) return await this.product.buyProduct(id, user.id);
+    else return false;
+  }
+
+  @UseGuards(AuthGuard)
+  @Query()
+  async getUserPurchases(@User() user: USER): Promise<PRODUCT[]> {
+    if (user.id) return await this.product.getUserPurchases(user.id);
+    else return [];
   }
 }

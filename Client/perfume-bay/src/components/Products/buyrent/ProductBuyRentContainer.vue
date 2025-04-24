@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast'
-import { GetProductById } from '@/services/productService'
+import { BuyProduct, GetProductById } from '@/services/productService'
 import { useRoute } from 'vue-router'
-import { useQuery } from '@vue/apollo-composable'
+import { useMutation, useQuery } from '@vue/apollo-composable'
 import type { PRODUCT } from '@/models/Products.DTO'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import Button from 'primevue/button'
 import router from '@/router'
 import Dialog from 'primevue/dialog'
@@ -15,22 +15,63 @@ const toast = useToast()
 const product = ref<PRODUCT | undefined>()
 const rentDialogVisible = ref(false)
 const buyDialogVisible = ref(false)
-
+const route = useRoute()
 const { onResult, loading } = useQuery(
   GetProductById,
   {
-    id: useRoute().params.id as string,
+    id: route.params.id as string,
   },
   {
     fetchPolicy: 'cache-first',
   },
 )
+const { mutate: buyProductMutation } = useMutation(BuyProduct)
+
 onResult((res) => {
   if (res?.data?.getProductById) product.value = res?.data?.getProductById
 })
 
 const back = () => {
   router.back()
+}
+
+const showSuccessToast = () => {
+  toast.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: 'Product Bought successfully !',
+    life: 3000,
+  })
+}
+const showErrorToast = () => {
+  toast.add({
+    severity: 'danger',
+    summary: 'Error',
+    detail: 'Error buying product',
+    life: 3000,
+  })
+}
+
+const buyProduct = async () => {
+  try {
+    const { data } = await buyProductMutation({
+      id: route.params.id as string,
+    })
+
+    if (data?.buyProduct) {
+      showSuccessToast()
+      rentDialogVisible.value = true
+      await nextTick()
+      router.back()
+    } else {
+      showErrorToast()
+      rentDialogVisible.value = false
+    }
+  } catch (error) {
+    showErrorToast()
+    console.error('Error creating product:', error)
+    throw error
+  }
 }
 </script>
 <template>
@@ -94,6 +135,6 @@ const back = () => {
     header="Are you sure you want to buy this product?"
     :style="{ width: '50vw' }"
   >
-    <BuyDialog v-model:visible="buyDialogVisible" />
+    <BuyDialog v-model:visible="buyDialogVisible" @confirm="buyProduct" />
   </Dialog>
 </template>

@@ -36,6 +36,12 @@ export const DeleteProduct = gql`
     deleteProduct(id: $id)
   }
 `
+
+export const BuyProduct = gql`
+  mutation buyProduct($id: String!) {
+    buyProduct(id: $id)
+  }
+`
 export const GetProductById = gql`
   query getProductById($id: String!) {
     getProductById(id: $id) {
@@ -66,6 +72,20 @@ export const GetProductForUser = gql`
 export const GetAllProducts = gql`
   query getAllProducts {
     getAllProducts {
+      id
+      title
+      categories
+      description
+      purchasePrice
+      rentPrice
+      rentDuration
+    }
+  }
+`
+
+export const GetUserPurchases = gql`
+  query getUserPurchases {
+    getUserPurchases {
       id
       title
       categories

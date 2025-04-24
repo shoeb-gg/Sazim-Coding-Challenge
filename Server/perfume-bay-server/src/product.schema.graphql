@@ -31,10 +31,12 @@ type Query {
   getProductForUser: [PRODUCT]
   getProductById(id: String!): PRODUCT
   getAllProducts: [PRODUCT]
+  getUserPurchases: [PRODUCT]
 }
 
 type Mutation {
   createProduct(productData: PRODUCT_Input): PRODUCT
   updateProduct(productData: PRODUCT_Input_Update): PRODUCT
   deleteProduct(id: String!): Boolean
+  buyProduct(id: String!): Boolean
 }

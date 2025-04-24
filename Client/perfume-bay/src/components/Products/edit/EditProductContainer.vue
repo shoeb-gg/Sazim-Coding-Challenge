@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PRODUCT } from '@/models/Products.DTO'
-import { getProductById, updateProduct } from '@/services/productService'
+import { getProductById, refreshProducts, updateProduct } from '@/services/productService'
 import EditProductForm from '@/components/Products/edit/EditProductForm.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -63,6 +63,7 @@ const editProductApiCall = () => {
   updateProduct(updatedProduct)
     .then((result) => {
       console.log(result)
+      refreshProducts()
     })
     .catch((error) => {
       showErrorToast()

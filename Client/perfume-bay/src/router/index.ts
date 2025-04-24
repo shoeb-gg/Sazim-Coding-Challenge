@@ -61,6 +61,17 @@ const router = createRouter({
       path: '/products/buyrent/:id',
       name: 'buy-rent-products',
       component: () => import('../views/Products/ProductBuyRent.vue'),
+      beforeEnter: (to, from, next) => {
+        checkToken(next)
+      },
+    },
+    {
+      path: '/products/buyrent/list',
+      name: 'buy-rent-list',
+      component: () => import('../views/Products/BuyRentList.vue'),
+      beforeEnter: (to, from, next) => {
+        checkToken(next)
+      },
     },
   ],
 })
