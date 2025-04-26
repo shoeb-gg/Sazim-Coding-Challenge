@@ -2,10 +2,11 @@
 import type { PRODUCT } from '@/models/Products.DTO'
 import { getProductById, refreshProducts, updateProduct } from '@/services/productService'
 import EditProductForm from '@/components/Products/edit/EditProductForm.vue'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { numberInput, textArrayInput, textInput } from '@/services/validationService'
 import { useToast } from 'primevue/usetoast'
+import router from '@/router'
 
 const product = ref<PRODUCT | undefined>()
 const toast = useToast()
@@ -22,6 +23,15 @@ onMounted(() => {
       throw error
     })
 })
+
+const showSuccessToast = () => {
+  toast.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: 'Product edited successfully !',
+    life: 3000,
+  })
+}
 
 const showValidationErrorToast = () => {
   toast.add({
@@ -57,17 +67,22 @@ const editProduct = () => {
   }
 }
 
-const editProductApiCall = () => {
+const editProductApiCall = async () => {
   const { __typename, ...updatedProduct } = product.value
 
-  updateProduct(updatedProduct)
-    .then((result) => {
-      console.log(result)
-      refreshProducts()
+  await updateProduct(updatedProduct)
+    .then(async (result) => {
+      if (result.data.updateProduct) {
+        showSuccessToast()
+        refreshProducts()
+
+        await nextTick()
+        router.back()
+      } else showErrorToast()
     })
     .catch((error) => {
       showErrorToast()
-      console.error('Error creating product:', error)
+      console.error('Error editing product:', error)
       throw error
     })
 }

@@ -104,14 +104,6 @@ export const updateProduct = (productData: PRODUCT | undefined) => {
         ...productData,
       },
     },
-
-    update: (cache, { data: { productData } }) => {
-      cache.writeQuery({
-        query: GetProductById,
-        variables: { id: productData.id },
-        data: { getProductById: productData },
-      })
-    },
   })
 }
 
